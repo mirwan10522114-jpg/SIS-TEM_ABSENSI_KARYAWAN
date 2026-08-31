@@ -1,0 +1,12 @@
+{
+  "name": "Sistem Absensi Karyawan",
+  "description": "Sistem Absensi Karyawan dengan Geofencing GPS Real-time, Verifikasi Selfie Kamera, Manajemen Cuti, Riwayat Lengkap, dan Web Admin Dashboard",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+
