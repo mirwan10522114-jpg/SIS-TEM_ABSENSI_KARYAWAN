@@ -8,7 +8,8 @@ import {
   GeofenceConfig, 
   Coordinates, 
   UserRole,
-  AttendanceStatus
+  AttendanceStatus,
+  AttendanceApprovalStatus
 } from '../types';
 import { 
   DEFAULT_GEOFENCE, 
