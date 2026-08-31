@@ -43,7 +43,7 @@ export const LeaveRequestView: React.FC = () => {
   const [attachmentName, setAttachmentName] = useState<string | null>(null);
 
   // OVERTIME FORM STATES
-  const [overtimeDate, setOvertimeDate] = useState('2026-08-30');
+  const [overtimeDate, setOvertimeDate] = useState(new Date().toISOString().split('T')[0]);
   const [startTime, setStartTime] = useState('17:30');
   const [endTime, setEndTime] = useState('20:30');
   const [overtimeReason, setOvertimeReason] = useState('');

@@ -26,7 +26,7 @@ export const AdminDashboardView: React.FC = () => {
 
   // Calculate top 4 statistic metrics
   const totalEmployees = employees.length;
-  const todayRecords = attendanceRecords.filter(r => r.date === '2026-08-30');
+  const todayRecords = attendanceRecords.filter(r => r.date === new Date().toISOString().split('T')[0]);
   const hadirToday = todayRecords.filter(r => r.status === 'hadir' || r.status === 'wfh').length;
   const terlambatToday = todayRecords.filter(r => r.status === 'terlambat').length;
   const pendingLeaves = leaveRequests.filter(r => r.status === 'pending').length;

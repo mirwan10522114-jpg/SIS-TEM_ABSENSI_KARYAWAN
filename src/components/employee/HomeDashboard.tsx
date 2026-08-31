@@ -52,7 +52,7 @@ export const HomeDashboard: React.FC = () => {
     hour12: false,
   });
 
-  const formattedDate = formatIndonesianDate('2026-08-30'); // Or currentTime
+  const formattedDate = formatIndonesianDate(new Date().toISOString().split('T')[0]);
 
   const isClockedIn = !!todayEmployeeAttendance?.clockInTime;
   const isClockedOut = !!todayEmployeeAttendance?.clockOutTime;

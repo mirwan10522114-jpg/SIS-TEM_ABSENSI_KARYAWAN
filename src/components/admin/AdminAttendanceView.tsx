@@ -40,7 +40,7 @@ export const AdminAttendanceView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [approvalFilter, setApprovalFilter] = useState('ALL');
-  const [dateFilter, setDateFilter] = useState('2026-08-30');
+  const [dateFilter, setDateFilter] = useState(new Date().toISOString().split('T')[0]);
 
   // Monthly Recap View States
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>(employees[0]?.id || 'emp-01');
