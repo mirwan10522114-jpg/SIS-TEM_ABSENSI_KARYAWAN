@@ -433,6 +433,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCameraMode(null);
   };
 
+  // Helper: parse shift end time from employee's shift string (e.g. "Shift Pagi (08:00 - 17:00 WIB)" -> {h:17, m:0})
+  const parseShiftEndTime = (shiftStr: string): { h: number; m: number } => {
+    const match = shiftStr.match(/-\s*(\d{2}):(\d{2})/);
+    if (match) return { h: parseInt(match[1], 10), m: parseInt(match[2], 10) };
+    return { h: 17, m: 0 }; // fallback
+  };
+
   const clockIn = async (photoUrl: string, reason?: string): Promise<{ success: boolean; message: string; record?: AttendanceRecord }> => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
@@ -443,10 +450,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const minutes = now.getMinutes();
     const shiftStart = parseShiftStartTime(activeEmployee.shift);
     let status: AttendanceStatus = 'hadir';
+    let approvalStatus: AttendanceApprovalStatus = 'approved';
+
     if (!isInside) {
       status = 'wfh';
+      approvalStatus = 'approved';
     } else if (hours > shiftStart.h || (hours === shiftStart.h && minutes > shiftStart.m + 15)) {
       status = 'terlambat';
+      approvalStatus = 'pending_approval';
     }
 
     const approxAddress = getApproximateAddress(currentCoords, geofenceConfig.center, geofenceConfig.address);
@@ -460,6 +471,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       date: todayStr,
       clockInTime: timeStr,
       status: status,
+      approvalStatus: approvalStatus,
       clockInLocation: {
         lat: currentCoords.lat,
         lng: currentCoords.lng,
@@ -497,12 +509,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return { success: true, message: 'Clock In Berhasil Tersimpan!', record: newRecord };
   };
 
-  const clockOut = async (photoUrl: string): Promise<{ success: boolean; message: string; record?: AttendanceRecord }> => {
+  const clockOut = async (photoUrl: string, earlyReason?: string): Promise<{ success: boolean; message: string; record?: AttendanceRecord }> => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
     const dist = calculateDistanceMeters(currentCoords, geofenceConfig.center);
     const isInside = dist <= geofenceConfig.radiusMeters;
     const approxAddress = getApproximateAddress(currentCoords, geofenceConfig.center, geofenceConfig.address);
+
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const shiftEnd = parseShiftEndTime(activeEmployee.shift);
+    const isEarly = hours < shiftEnd.h || (hours === shiftEnd.h && minutes < shiftEnd.m);
 
     let updatedRecord: AttendanceRecord | undefined;
 
@@ -514,6 +531,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           ...existing,
           clockOutTime: timeStr,
           selfieClockOut: photoUrl,
+          earlyClockOutReason: isEarly ? (earlyReason || 'Pulang lebih awal') : existing.earlyClockOutReason,
+          approvalStatus: isEarly ? 'pending_approval' : existing.approvalStatus,
           clockOutLocation: {
             lat: currentCoords.lat,
             lng: currentCoords.lng,
@@ -536,6 +555,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           clockInTime: '08:00:00',
           clockOutTime: timeStr,
           status: 'hadir',
+          approvalStatus: isEarly ? 'pending_approval' : 'approved',
+          earlyClockOutReason: isEarly ? (earlyReason || 'Pulang lebih awal') : undefined,
           clockInLocation: {
             lat: geofenceConfig.center.lat,
             lng: geofenceConfig.center.lng,
