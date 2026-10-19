@@ -122,12 +122,6 @@ CREATE TABLE `attendance_records` (
   FOREIGN KEY (`employee_id`) REFERENCES `employees`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `attendance_records` (`id`, `employee_id`, `employee_name`, `employee_department`, `employee_avatar`, `date`, `clock_in_time`, `clock_out_time`, `status`, `approval_status`, `clock_in_lat`, `clock_in_lng`, `clock_in_address`, `clock_in_distance_meters`, `clock_in_is_inside`, `clock_out_lat`, `clock_out_lng`, `clock_out_address`, `clock_out_distance_meters`, `clock_out_is_inside`, `selfie_clock_in`, `selfie_clock_out`, `reason`, `early_clock_out_reason`, `face_match_confidence`, `device_info`) VALUES
-('att-01', 'emp-01', 'Budi Pratama, S.Kom.', 'Engineering & IT', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80', '2026-08-30', '07:54:12', NULL, 'hadir', 'approved', -6.22416000, 106.80984000, 'Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan', 18, 1, NULL, NULL, NULL, NULL, NULL, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80', NULL, NULL, NULL, 98, 'Samsung Galaxy S24 (Android 14)'),
-('att-02', 'emp-02', 'Siti Rahmawati, S.E.', 'Product Management', 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80', '2026-08-30', '08:34:05', NULL, 'terlambat', 'pending_approval', -6.22420000, 106.80990000, 'Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan', 32, 1, NULL, NULL, NULL, NULL, NULL, 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80', NULL, 'Terlambat 4 menit (Macet jalan protokol)', NULL, 94, 'iPhone 15 Pro (iOS 17.5)'),
-('att-03', 'emp-03', 'Dimas Wicaksono', 'Product & Design', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80', '2026-08-30', '08:52:19', NULL, 'wfh', 'approved', -6.23840000, 106.85210000, 'Jl. Tebet Barat Raya No. 14, Jakarta Selatan', 4850, 0, NULL, NULL, NULL, NULL, NULL, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80', NULL, 'WFH - Jadwal Sprint Remote & Desain UI Tahap 2', NULL, 96, 'MacBook Air M2 (Chrome Browser)'),
-('att-04', 'emp-05', 'Reza Fahlevi', 'Engineering & IT', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80', '2026-08-30', '07:45:00', '15:10:22', 'hadir', 'pending_approval', -6.22415000, 106.80985000, 'Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan', 10, 1, -6.22415000, 106.80985000, 'Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan', 12, 1, 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80', NULL, 'Orang tua sakit keras dan butuh diantar ke RS', 97, 'Google Pixel 8 Pro');
-
 -- 6. Table: leave_requests
 DROP TABLE IF EXISTS `leave_requests`;
 CREATE TABLE `leave_requests` (
@@ -152,10 +146,6 @@ CREATE TABLE `leave_requests` (
   FOREIGN KEY (`employee_id`) REFERENCES `employees`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `leave_requests` (`id`, `employee_id`, `employee_name`, `employee_department`, `employee_avatar`, `leave_type`, `start_date`, `end_date`, `total_days`, `reason`, `attachment_name`, `status`, `applied_date`, `review_date`, `reviewed_by`) VALUES
-('leave-01', 'emp-04', 'Anisa Kusuma Putri', 'Human Resources', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80', 'Cuti Tahunan', '2026-09-02', '2026-09-04', 3, 'Keperluan keluarga di Yogyakarta dan menghadiri pernikahan kerabat kandung.', NULL, 'pending', '2026-08-29', NULL, NULL),
-('leave-02', 'emp-03', 'Dimas Wicaksono', 'Product & Design', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80', 'Cuti Sakit', '2026-08-25', '2026-08-26', 2, 'Demam tinggi dan istirahat dokter (surat keterangan terlampir).', 'Surat_Keterangan_Dokter_RS_Mitra.pdf', 'disetujui', '2026-08-25', '2026-08-25', 'HR Manager (Dewi Lestari)');
-
 -- 7. Table: overtime_requests
 DROP TABLE IF EXISTS `overtime_requests`;
 CREATE TABLE `overtime_requests` (
@@ -177,10 +167,6 @@ CREATE TABLE `overtime_requests` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`employee_id`) REFERENCES `employees`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `overtime_requests` (`id`, `employee_id`, `employee_name`, `employee_department`, `employee_avatar`, `date`, `start_time`, `end_time`, `hours`, `reason`, `status`, `applied_date`, `review_date`, `reviewed_by`) VALUES
-('ovt-01', 'emp-01', 'Budi Pratama, S.Kom.', 'Engineering & IT', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80', '2026-08-30', '17:30', '20:30', 3.00, 'Deployment patch keamanan API backend & optimasi database MySQL.', 'pending', '2026-08-30', NULL, NULL),
-('ovt-02', 'emp-05', 'Reza Fahlevi', 'Engineering & IT', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80', '2026-08-28', '17:00', '21:00', 4.00, 'Fixing critical bug migrasi server & integrasi geofencing.', 'disetujui', '2026-08-28', '2026-08-28', 'Admin HR (Dewi Lestari)');
 
 -- 8. Table: announcements
 DROP TABLE IF EXISTS `announcements`;
